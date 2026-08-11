@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+/* Brand tokens verified from computed styles on the live hhgoa.com render, 2026-08-11.
+   See public/assets/brand/SOURCES.md for provenance. */
+:root {
+  --hh-green: #0b6839;
+  --hh-green-deep: #084d2a;
+  --hh-green-dark: #063a20;
+  --hh-yellow: #fee101;
+  --hh-pink: #ff0080;
+  --hh-cream: #fffbe8;
+  --hh-white: #ffffff;
+  --hh-cream-dim: rgba(255, 251, 232, 0.62);
+  --hh-line: rgba(255, 251, 232, 0.18);
+}
+
+@theme inline {
+  --color-hh-green: var(--hh-green);
+  --color-hh-green-deep: var(--hh-green-deep);
+  --color-hh-green-dark: var(--hh-green-dark);
+  --color-hh-yellow: var(--hh-yellow);
+  --color-hh-pink: var(--hh-pink);
+  --color-hh-cream: var(--hh-cream);
+  --color-hh-cream-dim: var(--hh-cream-dim);
+  --color-hh-line: var(--hh-line);
+  --font-mono: var(--font-victor-mono);
+  --font-display: var(--font-imbue);
+}
+
+html,
+body {
+  background: var(--hh-green);
+  color: var(--hh-cream);
+  font-family: var(--font-victor-mono), ui-monospace, SFMono-Regular, monospace;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.will-change-transform {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* iOS Safari zooms the viewport when a focused input is under 16px */
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+.hh-display {
+  font-family: var(--font-imbue), Georgia, serif;
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+}
+
+.hh-grain {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(255, 251, 232, 0.09) 1px,
+    transparent 0
+  );
+  background-size: 22px 22px;
+}
+
+.hh-tech-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 251, 232, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 251, 232, 0.04) 1px, transparent 1px);
+  background-size: 3.5rem 3.5rem;
+}
+
+.hh-dot-grid {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(255, 251, 232, 0.12) 1.5px,
+    transparent 0
+  );
+  background-size: 24px 24px;
+}
+
+@keyframes hh-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hh-rise {
+  animation: hh-rise 0.4s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hh-rise {
+    animation: none;
+  }
+}
