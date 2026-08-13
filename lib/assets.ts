@@ -18,6 +18,7 @@ export const ASSET = {
   studio: "/assets/brand/247-studio-mark.svg",
   sun: "/assets/brand/sun-rise-720.png",
   trees: "/assets/brand/footer-trees-900.png",
+  passTemplate: "/assets/brand/goa-pass-template.png",
 } as const;
 
 const cache = new Map<string, Promise<HTMLImageElement>>();

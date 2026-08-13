@@ -8,8 +8,7 @@ type Props = { params: Promise<{ id: string }> };
 
 const TITLES = {
   pfp: "HH Goa 2026 — PFP Frame",
-  id: "HH Goa 2026 — Builder ID (Horiz)",
-  id_vert: "HH Goa 2026 — Builder ID (Vert)",
+  id: "HH Goa 2026 — Builder ID",
   team: "HH Goa 2026 — Team Frame",
 } as const;
 

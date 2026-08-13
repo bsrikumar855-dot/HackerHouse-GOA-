@@ -22,8 +22,7 @@ type Mode = Spec["mode"];
 
 const MODES: { id: Mode; label: string; blurb: string }[] = [
   { id: "pfp", label: "PFP FRAME", blurb: "Square frame, ready to drop straight into your X avatar." },
-  { id: "id", label: "BUILDER ID (HORIZ)", blurb: "Horizontal event pass with name, role, team & scannable QR code." },
-  { id: "id_vert", label: "BUILDER ID (VERT)", blurb: "Vertical lanyard badge with full attendee details & QR code." },
+  { id: "id", label: "BUILDER ID", blurb: "Horizontal pass layout with QR verification code." },
   { id: "team", label: "TEAM FRAME", blurb: "Bring 2–3 teammates into one combined frame." },
 ];
 
@@ -50,7 +49,9 @@ export default function FrameStudio() {
 
   const spec: Spec = useMemo(() => {
     if (mode === "pfp") return { mode, person: people[0] };
-    if (mode === "id" || mode === "id_vert") return { mode, person: people[0], role, teamName, handle };
+    if (mode === "id") {
+      return { mode, person: people[0], role, teamName, handle };
+    }
     return { mode, people: people.slice(0, teamCount), teamName };
   }, [mode, people, role, teamName, handle, teamCount]);
 
@@ -158,7 +159,7 @@ export default function FrameStudio() {
 
           {error && <p className="text-xs text-hh-pink">{error}</p>}
 
-          {(mode === "id" || mode === "id_vert") && (
+          {mode === "id" && (
             <IdFields
               name={people[0].name}
               role={role}
@@ -181,7 +182,7 @@ export default function FrameStudio() {
             />
           )}
 
-          {(mode === "id" || mode === "id_vert") && (
+          {mode === "id" && (
             <p className="rounded-xl border border-hh-line bg-hh-green-deep/50 px-4 py-3 text-xs text-hh-cream/70">
               Builder class:{" "}
               <span className="font-bold text-hh-yellow">
@@ -206,7 +207,7 @@ function ModeTabs({ mode, onChange }: { mode: Mode; onChange: (m: Mode) => void 
       <div
         role="tablist"
         aria-label="Frame type"
-        className="grid grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-1.5 rounded-2xl border border-hh-line bg-hh-green-deep/60 p-1 sm:p-1.5"
+        className="grid grid-cols-2 sm:grid-cols-5 gap-1 sm:gap-1.5 rounded-2xl border border-hh-line bg-hh-green-deep/60 p-1 sm:p-1.5"
       >
         {MODES.map((m) => (
           <button

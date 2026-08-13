@@ -2,7 +2,7 @@ import { list, put } from "@vercel/blob";
 import fs from "fs";
 import path from "path";
 
-export type ShareMode = "pfp" | "id" | "id_vert" | "team";
+export type ShareMode = "pfp" | "id" | "team";
 
 export type ShareRecord = {
   id: string;
