@@ -78,7 +78,7 @@ export default function HeroSection() {
       >
         {/* Full-Color Background Illustration */}
         <Image
-          src="/assets/brand/sun-rise.png"
+          src="/assets/brand/sun-rise.webp"
           alt="HH Goa Sunrise Motif"
           fill
           priority

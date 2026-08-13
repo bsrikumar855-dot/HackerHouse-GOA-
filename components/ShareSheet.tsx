@@ -13,6 +13,7 @@ type Props = {
 const FILENAME = {
   pfp: "hhgoa-2026-pfp.png",
   id: "hhgoa-2026-builder-id.png",
+  id_vert: "hhgoa-2026-builder-id-vertical.png",
   team: "hhgoa-2026-team.png",
 } as const;
 

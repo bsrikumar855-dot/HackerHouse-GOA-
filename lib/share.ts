@@ -66,5 +66,6 @@ export function tweetIntent(caption: string, url?: string): string {
 export const CAPTIONS = {
   pfp: "Just made my HH Goa 2026 profile frame. Drop your photo in, get one in seconds — no signup, works on mobile.",
   id: "Got my HH Goa 2026 Builder ID. Upload a photo, add your stack, download it in seconds — no signup.",
+  id_vert: "Got my HH Goa 2026 Vertical Builder ID pass. Upload a photo, add your stack, download it in seconds — no signup.",
   team: "Our team just got framed for HH Goa 2026. Bring 2-3 teammates into one frame in seconds — no signup.",
 } as const;

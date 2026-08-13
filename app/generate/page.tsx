@@ -6,6 +6,25 @@ import { DATELINE, HASHTAG } from "@/lib/assets";
 export const metadata = {
   title: "Generate Builder ID & Badge — HH Goa 2026",
   description: "Turn any photo into an official HH Goa 2026 PFP frame, Builder ID card, or team frame.",
+  openGraph: {
+    title: "Generate Builder ID & Badge — HH Goa 2026",
+    description: "Turn any photo into an official HH Goa 2026 PFP frame, Builder ID card, or team frame.",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Generate Builder ID & Badge — HH Goa 2026",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Generate Builder ID & Badge — HH Goa 2026",
+    description: "Turn any photo into an official HH Goa 2026 PFP frame, Builder ID card, or team frame.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function GeneratePage() {

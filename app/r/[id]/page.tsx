@@ -8,7 +8,8 @@ type Props = { params: Promise<{ id: string }> };
 
 const TITLES = {
   pfp: "HH Goa 2026 — PFP Frame",
-  id: "HH Goa 2026 — Builder ID",
+  id: "HH Goa 2026 — Builder ID (Horiz)",
+  id_vert: "HH Goa 2026 — Builder ID (Vert)",
   team: "HH Goa 2026 — Team Frame",
 } as const;
 
@@ -19,6 +20,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = TITLES[record.mode];
   const description = record.caption || "Made with the HH Goa 2026 frame generator. #FrameInGoa";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hacker-house-goa-phi.vercel.app";
+  const imageUrl = record.imageUrl.startsWith("http")
+    ? record.imageUrl
+    : `${siteUrl}${record.imageUrl}`;
 
   return {
     title,
@@ -28,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       images: [
         {
-          url: record.imageUrl,
+          url: imageUrl,
           width: record.width,
           height: record.height,
           alt: title,
@@ -40,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: [record.imageUrl],
+      images: [imageUrl],
     },
   };
 }

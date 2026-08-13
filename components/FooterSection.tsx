@@ -45,16 +45,16 @@ export default function FooterSection() {
       {/* Mid-Page Floral Divider Band */}
       <div className="relative z-10 w-full overflow-hidden py-4 bg-hh-green-deep border-b border-hh-line">
         <div className="flex items-center justify-between gap-6 opacity-60">
-          <Image src="/assets/brand/footer-trees-900.png" alt="Floral Motif" width={600} height={120} className="h-16 w-auto object-cover" />
+          <Image src="/assets/brand/footer-trees.webp" alt="Floral Motif" width={600} height={120} className="h-16 w-auto object-cover" />
           <p className="text-xs font-bold tracking-[0.3em] text-hh-yellow font-mono uppercase shrink-0">HACKER HOUSE GOA 2026</p>
-          <Image src="/assets/brand/footer-trees-900.png" alt="Floral Motif" width={600} height={120} className="h-16 w-auto object-cover scale-x-[-1]" />
+          <Image src="/assets/brand/footer-trees.webp" alt="Floral Motif" width={600} height={120} className="h-16 w-auto object-cover scale-x-[-1]" />
         </div>
       </div>
 
       {/* Palm Trees Background Bed with Parallax Drift */}
       <div ref={floralRef} className="pointer-events-none absolute bottom-0 left-0 right-0 opacity-60">
         <Image
-          src="/assets/brand/footer-trees-900.png"
+          src="/assets/brand/footer-trees.webp"
           alt="Goa Palm Trees & Florals"
           width={1440}
           height={887}
@@ -83,14 +83,6 @@ export default function FooterSection() {
               className="transition-colors hover:text-hh-pink"
             >
               X / TWITTER
-            </a>
-            <a
-              href="https://t.me"
-              target="_blank"
-              rel="noreferrer"
-              className="transition-colors hover:text-hh-pink"
-            >
-              TELEGRAM
             </a>
             <a
               href="https://forms.gle/jM5hTaGvsrfEfixPA"

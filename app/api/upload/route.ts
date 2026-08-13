@@ -8,9 +8,6 @@ const MAX_BYTES = 8 * 1024 * 1024;
 const MODES: ShareMode[] = ["pfp", "id", "team"];
 
 export async function POST(req: Request) {
-  if (!blobConfigured()) {
-    return NextResponse.json({ error: "Sharing is not configured" }, { status: 501 });
-  }
 
   const form = await req.formData();
   const image = form.get("image");

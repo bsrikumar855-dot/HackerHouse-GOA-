@@ -14,7 +14,7 @@ export default function TaskSection() {
       {/* Full-Bleed Blended Goan Palm Landscape Background */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-20">
         <Image
-          src="/assets/brand/footer-trees-900.png"
+          src="/assets/brand/footer-trees.webp"
           alt=""
           fill
           sizes="100vw"
@@ -42,7 +42,7 @@ export default function TaskSection() {
             </span>
 
             <h2 className="hh-display mt-5 text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.92] text-hh-cream drop-shadow-lg">
-              CLAIM YOUR <br />
+              CLAIM YOUR<br />
               <span className="text-hh-yellow">BUILDER BADGE</span>
             </h2>
 

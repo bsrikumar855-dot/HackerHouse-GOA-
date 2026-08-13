@@ -19,7 +19,7 @@ const STATS: Stat[] = [
 export default function StatsStrip() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hasAnimated, setHasAnimated] = useState(false);
-  const [counts, setCounts] = useState<number[]>(STATS.map(() => 0));
+  const [counts, setCounts] = useState<number[]>(STATS.map((s) => s.value));
 
   useEffect(() => {
     const el = containerRef.current;
@@ -31,7 +31,7 @@ export default function StatsStrip() {
           setHasAnimated(true);
 
           const startTime = performance.now();
-          const duration = 1600;
+          const duration = 1400;
 
           const update = (now: number) => {
             const progress = Math.min(1, (now - startTime) / duration);

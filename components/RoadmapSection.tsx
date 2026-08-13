@@ -64,7 +64,7 @@ export default function RoadmapSection() {
       {/* Full-Bleed Blended Goan Palm Landscape Background */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-15">
         <Image
-          src="/assets/brand/footer-trees-900.png"
+          src="/assets/brand/footer-trees.webp"
           alt=""
           fill
           sizes="100vw"

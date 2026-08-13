@@ -124,6 +124,7 @@ export default function AgendaSection() {
         <div className="relative w-full overflow-visible py-2">
           <div
             ref={trackRef}
+            style={{ willChange: "transform", transform: "translateZ(0)" }}
             className="flex gap-8 px-6 sm:px-16 w-max items-center"
           >
             {AGENDA.map((item, i) => {

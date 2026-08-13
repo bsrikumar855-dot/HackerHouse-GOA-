@@ -16,7 +16,7 @@ const imbue = Imbue({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://hacker-house-goa-phi.vercel.app",
   ),
   title: "Frame In Goa — HH Goa 2026 Builder ID",
   description:
@@ -26,8 +26,22 @@ export const metadata: Metadata = {
     description:
       "Turn any photo into an HH Goa 2026 PFP frame, Builder ID card, or team frame.",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Frame In Goa — HH Goa 2026 Builder ID",
+      },
+    ],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    title: "Frame In Goa — HH Goa 2026 Builder ID",
+    description:
+      "Turn any photo into an HH Goa 2026 PFP frame, Builder ID card, or team frame.",
+    images: ["/og-image.png"],
+  },
 };
 
 export const viewport: Viewport = {
