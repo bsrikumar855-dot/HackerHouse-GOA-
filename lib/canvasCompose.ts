@@ -78,12 +78,12 @@ function tracking(
   x: number,
   y: number,
   space: number,
-  align: "left" | "center" = "left",
+  align: "left" | "center" | "right" = "left",
 ) {
   const chars = [...text];
   const total =
     chars.reduce((sum, c) => sum + ctx.measureText(c).width, 0) + space * (chars.length - 1);
-  let cx = align === "center" ? x - total / 2 : x;
+  let cx = align === "center" ? x - total / 2 : align === "right" ? x - total : x;
   for (const c of chars) {
     ctx.fillText(c, cx, y);
     cx += ctx.measureText(c).width + space;
@@ -507,188 +507,202 @@ async function renderIdVert(ctx: CanvasRenderingContext2D, spec: Extract<Spec, {
   const no = builderNumber(name, role);
   const verifyUrl = getVerifyUrl(name, role, teamName, no, handle, title);
 
+  // Deep luxury green background
   ctx.fillStyle = BRAND.greenDark;
   ctx.fillRect(0, 0, w, h);
   grain(ctx, w, h, 24);
 
+  // Palm tree & floral artwork at bottom
   await treeBed(ctx, w, h, 0.85);
-  drawSun(ctx, w / 2, 100, 44);
 
-  // Lanyard clip slot top graphic
+  // Top Lanyard Clip Punch Hole
   ctx.save();
   ctx.fillStyle = "rgba(0,0,0,0.5)";
-  roundRect(ctx, { x: w / 2 - 36, y: 22, w: 72, h: 14 }, 7);
+  roundRect(ctx, { x: w / 2 - 36, y: 18, w: 72, h: 12 }, 6);
   ctx.fill();
   ctx.strokeStyle = BRAND.yellow;
-  ctx.lineWidth = 2.5;
+  ctx.lineWidth = 2;
   ctx.stroke();
   ctx.restore();
 
-  // Header Rail
+  // Header Row (Goa emblem left, Wordmark center, Sun motif right)
   const hindi = await loadImage(ASSET.goaHindi).catch(() => null);
   if (hindi) {
-    ctx.drawImage(hindi, 36, 54, 52, 52);
+    ctx.drawImage(hindi, 36, 46, 48, 48);
   }
-  await drawWordmark(ctx, w / 2, 60, 270);
+  await drawWordmark(ctx, w / 2, 48, 250);
+  drawSun(ctx, w - 56, 68, 30);
 
+  // Header subtitle text
   ctx.save();
   ctx.fillStyle = BRAND.yellow;
-  ctx.font = `400 18px ${fams.mono}`;
-  ctx.textBaseline = "alphabetic";
-  tracking(ctx, "OFFICIAL BUILDER PASS 2026", w / 2, 138, 2.5, "center");
+  ctx.font = `400 16px ${fams.mono}`;
+  ctx.textBaseline = "middle";
+  tracking(ctx, "OFFICIAL BUILDER PASS 2026", w / 2, 122, 2.4, "center");
   ctx.restore();
 
-  // Central Photo Frame
-  const photoSize = 290;
-  const photo: Box = { x: (w - photoSize) / 2, y: 160, w: photoSize, h: photoSize };
+  // Photo Frame (260x260)
+  const photoSize = 260;
+  const photo: Box = { x: (w - photoSize) / 2, y: 146, w: photoSize, h: photoSize };
 
   ctx.save();
-  roundRect(ctx, { x: photo.x - 10, y: photo.y - 10, w: photo.w + 20, h: photo.h + 20 }, 28);
+  roundRect(ctx, { x: photo.x - 8, y: photo.y - 8, w: photo.w + 16, h: photo.h + 16 }, 24);
   ctx.fillStyle = BRAND.greenDeep;
   ctx.fill();
-  roundRect(ctx, photo, 20);
+  roundRect(ctx, photo, 18);
   ctx.clip();
   if (spec.person.image) drawCover(ctx, spec.person.image, photo, spec.person.transform);
   else placeholder(ctx, photo, fams);
   ctx.restore();
 
+  // Dual outer border rings (Pink & Yellow)
   ctx.save();
-  roundRect(ctx, photo, 20);
+  roundRect(ctx, photo, 18);
   ctx.strokeStyle = BRAND.pink;
-  ctx.lineWidth = 6;
+  ctx.lineWidth = 5;
   ctx.stroke();
-  roundRect(ctx, { x: photo.x - 5, y: photo.y - 5, w: photo.w + 10, h: photo.h + 10 }, 24);
+  roundRect(ctx, { x: photo.x - 4, y: photo.y - 4, w: photo.w + 8, h: photo.h + 8 }, 22);
   ctx.strokeStyle = BRAND.yellow;
-  ctx.lineWidth = 4;
+  ctx.lineWidth = 3.5;
   ctx.stroke();
   ctx.restore();
 
-  drawVerifiedShield(ctx, photo.x + photo.w - 18, photo.y + photo.h - 18, 28);
+  // Verified shield badge floating on photo frame
+  drawVerifiedShield(ctx, photo.x + photo.w - 16, photo.y + photo.h - 16, 25);
 
   // Pass Number Tab under photo
   ctx.save();
   ctx.fillStyle = BRAND.pink;
-  roundRect(ctx, { x: photo.x - 10, y: photo.y + photo.h + 16, w: photo.w + 20, h: 46 }, 12);
+  roundRect(ctx, { x: photo.x - 8, y: photo.y + photo.h + 14, w: photo.w + 16, h: 42 }, 12);
   ctx.fill();
   ctx.fillStyle = BRAND.cream;
-  ctx.font = `400 21px ${fams.mono}`;
+  ctx.font = `400 20px ${fams.mono}`;
   ctx.textBaseline = "middle";
-  tracking(ctx, `PASS NO. ${no} / 247`, photo.x + photo.w / 2, photo.y + photo.h + 39, 2.4, "center");
+  tracking(ctx, `PASS NO. ${no} / 247`, photo.x + photo.w / 2, photo.y + photo.h + 35, 2.2, "center");
   ctx.restore();
 
-  // Details Section (Centered)
-  let currY = 565;
+  // Details Section (Centered with exact vertical spacing)
+  let yCursor = 478;
 
+  // BUILDER NAME label & text
   ctx.save();
-  ctx.fillStyle = "rgba(255,251,232,0.6)";
-  ctx.font = `400 15px ${fams.mono}`;
-  tracking(ctx, "BUILDER NAME", w / 2, currY, 2.5, "center");
-  currY += 38;
+  ctx.fillStyle = "rgba(255,251,232,0.55)";
+  ctx.font = `400 13px ${fams.mono}`;
+  ctx.textBaseline = "top";
+  tracking(ctx, "BUILDER NAME", w / 2, yCursor, 2.4, "center");
+  yCursor += 22;
 
   ctx.fillStyle = BRAND.cream;
   ctx.textAlign = "center";
-  fitFont(ctx, name, w - 80, fams.display, "700", 68, 36);
-  ctx.fillText(name, w / 2, currY);
+  const namePx = fitFont(ctx, name, w - 64, fams.display, "700", 54, 32);
+  ctx.fillText(name, w / 2, yCursor);
   ctx.textAlign = "left";
-  currY += 40;
+  yCursor += namePx + 14;
 
+  // STACK / ROLE
   ctx.fillStyle = BRAND.yellow;
-  ctx.font = `700 24px ${fams.mono}`;
+  ctx.font = `700 21px ${fams.mono}`;
   ctx.textAlign = "center";
-  fitFont(ctx, role, w - 80, fams.mono, "700", 24, 17);
-  ctx.fillText(truncate(ctx, role.toUpperCase(), w - 80), w / 2, currY);
+  const roleText = role.toUpperCase();
+  fitFont(ctx, roleText, w - 64, fams.mono, "700", 21, 15);
+  ctx.fillText(truncate(ctx, roleText, w - 64), w / 2, yCursor);
   ctx.textAlign = "left";
-  currY += 42;
+  yCursor += 32;
 
-  const displayTeam = teamName ? `TEAM: ${teamName}` : "SOLO BUILDER";
-  ctx.font = `700 20px ${fams.mono}`;
-  ctx.textAlign = "center";
+  // TEAM NAME
+  const displayTeam = teamName ? `TEAM: ${teamName.toUpperCase()}` : "SOLO BUILDER";
   ctx.fillStyle = "rgba(255,251,232,0.85)";
-  fitFont(ctx, displayTeam, w - 80, fams.mono, "700", 20, 15);
-  ctx.fillText(truncate(ctx, displayTeam.toUpperCase(), w - 80), w / 2, currY);
+  ctx.font = `700 18px ${fams.mono}`;
+  ctx.textAlign = "center";
+  fitFont(ctx, displayTeam, w - 64, fams.mono, "700", 18, 14);
+  ctx.fillText(truncate(ctx, displayTeam, w - 64), w / 2, yCursor);
   ctx.textAlign = "left";
-  currY += 44;
+  yCursor += 34;
 
-  ctx.font = `700 24px ${fams.mono}`;
-  const chipTextW = trackedWidth(ctx, title.toUpperCase(), 2);
-  const chipW = Math.min(chipTextW + 48, w - 80);
-  const chip: Box = { x: (w - chipW) / 2, y: currY - 26, w: chipW, h: 50 };
-  roundRect(ctx, chip, 25);
+  // BUILDER CLASS TITLE CHIP
+  ctx.font = `700 22px ${fams.mono}`;
+  const chipTextW = trackedWidth(ctx, title.toUpperCase(), 1.8);
+  const chipW = Math.min(chipTextW + 40, w - 64);
+  const chip: Box = { x: (w - chipW) / 2, y: yCursor, w: chipW, h: 46 };
+  roundRect(ctx, chip, 23);
   ctx.fillStyle = BRAND.yellow;
   ctx.fill();
   ctx.strokeStyle = BRAND.pink;
-  ctx.lineWidth = 3.5;
+  ctx.lineWidth = 3;
   ctx.stroke();
   ctx.fillStyle = BRAND.green;
   ctx.textBaseline = "middle";
-  tracking(ctx, title.toUpperCase(), w / 2, chip.y + chip.h / 2 + 1, 2, "center");
-  currY += 48;
+  tracking(ctx, title.toUpperCase(), w / 2, chip.y + chip.h / 2 + 1, 1.8, "center");
+  yCursor += 56;
 
+  // X HANDLE
   if (handle) {
-    ctx.fillStyle = "rgba(255,251,232,0.75)";
-    ctx.font = `400 22px ${fams.mono}`;
-    ctx.textBaseline = "alphabetic";
-    tracking(ctx, `@${handle}`, w / 2, currY, 1.8, "center");
-    currY += 36;
+    ctx.fillStyle = "rgba(255,251,232,0.8)";
+    ctx.font = `400 19px ${fams.mono}`;
+    ctx.textBaseline = "top";
+    tracking(ctx, `@${handle}`, w / 2, yCursor, 1.8, "center");
   }
   ctx.restore();
 
   // Bottom QR Verification Section
-  const qrContainer: Box = { x: 44, y: 840, w: 542, h: 230 };
+  const qrContainer: Box = { x: 44, y: 735, w: 542, h: 220 };
   ctx.save();
-  roundRect(ctx, qrContainer, 22);
+  roundRect(ctx, qrContainer, 20);
   ctx.fillStyle = BRAND.greenDeep;
   ctx.fill();
   ctx.strokeStyle = BRAND.yellow;
   ctx.lineWidth = 3;
   ctx.stroke();
 
-  const qrBox: Box = { x: qrContainer.x + 20, y: qrContainer.y + 20, w: 190, h: 190 };
+  // QR Code box
+  const qrBox: Box = { x: qrContainer.x + 18, y: qrContainer.y + 18, w: 184, h: 184 };
   ctx.fillStyle = BRAND.cream;
-  roundRect(ctx, { x: qrBox.x - 6, y: qrBox.y - 6, w: qrBox.w + 12, h: qrBox.h + 12 }, 12);
+  roundRect(ctx, { x: qrBox.x - 5, y: qrBox.y - 5, w: qrBox.w + 10, h: qrBox.h + 10 }, 10);
   ctx.fill();
   await drawQrCode(ctx, qrBox, verifyUrl, BRAND.green, BRAND.cream);
 
-  const qrTextX = qrContainer.x + 236;
+  // Text inside QR Block
+  const qrTextX = qrContainer.x + 224;
   ctx.textBaseline = "alphabetic";
 
   ctx.fillStyle = BRAND.yellow;
-  ctx.font = `700 16px ${fams.mono}`;
-  tracking(ctx, "VERIFIED BUILDER BADGE", qrTextX, qrContainer.y + 48, 2);
+  ctx.font = `700 15px ${fams.mono}`;
+  tracking(ctx, "VERIFIED BUILDER BADGE", qrTextX, qrContainer.y + 44, 2);
 
   ctx.fillStyle = BRAND.cream;
-  ctx.font = `700 22px ${fams.mono}`;
-  fitFont(ctx, "SCAN TO VERIFY", qrContainer.w - 250, fams.mono, "700", 22, 16);
-  ctx.fillText("SCAN TO VERIFY", qrTextX, qrContainer.y + 86);
+  ctx.font = `700 21px ${fams.mono}`;
+  fitFont(ctx, "SCAN TO VERIFY", qrContainer.w - 240, fams.mono, "700", 21, 15);
+  ctx.fillText("SCAN TO VERIFY", qrTextX, qrContainer.y + 82);
 
   ctx.fillStyle = "rgba(255,251,232,0.7)";
-  ctx.font = `400 15px ${fams.mono}`;
-  tracking(ctx, "HACKER HOUSE GOA 2026", qrTextX, qrContainer.y + 124, 1.5);
+  ctx.font = `400 14px ${fams.mono}`;
+  tracking(ctx, "HACKER HOUSE GOA 2026", qrTextX, qrContainer.y + 120, 1.5);
 
   ctx.fillStyle = BRAND.pink;
-  ctx.font = `700 15px ${fams.mono}`;
-  tracking(ctx, "✓ AUTHENTIC PASS", qrTextX, qrContainer.y + 162, 1.8);
+  ctx.font = `700 14px ${fams.mono}`;
+  tracking(ctx, "✓ AUTHENTIC PASS", qrTextX, qrContainer.y + 158, 1.8);
   ctx.restore();
 
-  const footY = h - 50;
+  // Footer (No line overlap, clean right alignment)
+  const footY = h - 48;
   ctx.save();
-  ctx.strokeStyle = "rgba(255,251,232,0.3)";
+  ctx.strokeStyle = "rgba(255,251,232,0.35)";
   ctx.lineWidth = 2;
-  ctx.setLineDash([7, 9]);
+  ctx.setLineDash([6, 8]);
   ctx.beginPath();
-  ctx.moveTo(44, footY - 20);
-  ctx.lineTo(w - 44, footY - 20);
+  ctx.moveTo(44, footY - 18);
+  ctx.lineTo(w - 44, footY - 18);
   ctx.stroke();
 
   ctx.fillStyle = BRAND.cream;
-  ctx.font = `400 19px ${fams.mono}`;
+  ctx.font = `400 18px ${fams.mono}`;
   ctx.textBaseline = "middle";
-  tracking(ctx, DATELINE, 44, footY + 8, 2);
+  tracking(ctx, DATELINE, 44, footY + 6, 2);
 
-  ctx.fillStyle = "rgba(255,251,232,0.6)";
+  ctx.fillStyle = "rgba(255,251,232,0.65)";
   ctx.font = `400 17px ${fams.mono}`;
-  const sw = trackedWidth(ctx, STUDIO, 2);
-  tracking(ctx, STUDIO, w - 44 - sw, footY + 8, 2);
+  ctx.textAlign = "right";
+  ctx.fillText(STUDIO, w - 44, footY + 6);
   ctx.restore();
 }
 
@@ -712,8 +726,8 @@ async function idFooter(ctx: CanvasRenderingContext2D, w: number, h: number, fam
 
   ctx.fillStyle = "rgba(11,104,57,0.66)";
   ctx.font = `400 19px ${fams.mono}`;
-  const sw = trackedWidth(ctx, STUDIO, 2.2);
-  tracking(ctx, STUDIO, w - 56 - sw, y + 14, 2.2);
+  ctx.textAlign = "right";
+  ctx.fillText(STUDIO, w - 56, y + 14);
   ctx.restore();
 }
 
